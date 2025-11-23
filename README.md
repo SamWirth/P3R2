@@ -3,5 +3,7 @@
 reminder to self:
 git commit -m "Your concise commit message summary"
 
-helpful tool:
+helpful sources:
 https://www.w3schools.com/graphics/canvas_intro.asp
+
+https://thedailyfrontend.com/a-beginners-guide-to-javascript-event-listeners-and-handlers/
