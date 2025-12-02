@@ -27,6 +27,9 @@
         <h1>Game </h1>
     
         <p>instructions/controls/how to play:</p>
+        <ul>
+        <li>use wasd to move</li>
+        </ul>
 
 <!-- load javascript so we can draw on canvas -->
 <canvas id="myCanvas" width="600" height="600" 
@@ -166,7 +169,7 @@ const R1doorR = new Door({
     x: 460,
     y: 280,
   },
-  color: 'blue',
+  color: 'DeepSkyBlue',
 })
 
 const R2doorL = new Door({
@@ -177,6 +180,21 @@ const R2doorL = new Door({
   color: 'blue',
 })
 
+const R2doorR = new Door({
+  position: {
+    x: 460,
+    y: 340,
+  },
+  color: 'blue',
+})
+
+const R3doorL = new Door({
+  position: {
+    x: 30,
+    y: 190,
+  },
+  color: 'DarkBlue',
+})
 // initiate floor
 const floor1 = new Floor({
   position: {
@@ -262,6 +280,24 @@ function collision5({ player1, R2doorL }) {
   )
 }
 
+function collision6({ player1, R2doorR }) {
+  return (
+    player1.position.x + player1.width >= R2doorR.position.x && // player1 right collides with R1doorR left
+    R2doorR.position.x + R2doorR.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R2doorR.position.y && // player1 bottom collides with R1doorR top
+    R2doorR.position.y + R2doorR.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
+function collision7({ player1, R3doorL }) {
+  return (
+    player1.position.x + player1.width >= R3doorL.position.x && // player1 right collides with R1doorR left
+    R3doorL.position.x + R3doorL.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R3doorL.position.y && // player1 bottom collides with R1doorR top
+    R3doorL.position.y + R3doorL.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
 
 
 /*function collision2({ player1, floor1 }) {
@@ -286,8 +322,10 @@ setInterval(() => {
   // draw boxes
   background1.draw()
   player1.draw()
-  R1doorR.draw()
+  R3doorL.draw()
   R2doorL.draw()
+  R2doorR.draw()
+  R1doorR.draw()
   floor1.draw()
   floor2.draw()
   floor3.draw()
@@ -361,7 +399,7 @@ setInterval(() => {
   if (collision5({ player1, R2doorL })) {
     if (RoomTracker == 'R2'){ 
       if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - R1doorR's width - 1
-        player1.position.x = floor1.position.x +floor1.width - player1.width}
+        player1.position.x = R2doorL.position.x +R2doorL.width - player1.width}
       if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
         player1.position.x = 350
         player1.position.y = 280
@@ -369,11 +407,46 @@ setInterval(() => {
         RoomTracker = 'R1'
       }
       if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
-        player1.position.y = R1doorR.position.y +R1doorR.height+1}
+        player1.position.y = R2doorL.position.y +R2doorL.height+1}
       if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
-        player1.position.y = R1doorR.position.y - R1doorR.height - 1}
+        player1.position.y = R2doorL.position.y - R2doorL.height - 1}
     }
   }
+
+   if (collision6({ player1, R2doorR })) {
+    if (RoomTracker == 'R2'){ 
+      if (Key =='d'){
+        player1.position.x = 140
+        player1.position.y = 190
+        Background.src = "placeholder sprites/ROOM3.JPG"
+        RoomTracker = 'R3'
+      }
+      if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+        player1.position.x = R2doorR.position.x + R2doorR.width +1}
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+        player1.position.y = R2doorR.position.y +R2doorR.height+1}
+      if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+        player1.position.y = R2doorR.position.y - R2doorR.height - 1}
+    }
+  }
+
+   if (collision7({ player1, R3doorL })) {
+    if (RoomTracker == 'R3'){ 
+      if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - R1doorR's width - 1
+        player1.position.x = R2doorL.position.x +R2doorL.width - player1.width}
+      if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+        player1.position.x = 350
+        player1.position.y = 340
+        Background.src = "placeholder sprites/ROOM2.JPG"
+        RoomTracker = 'R2'
+      }
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+        player1.position.y = R2doorL.position.y +R2doorL.height+1}
+      if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+        player1.position.y = R2doorL.position.y - R2doorL.height - 1}
+    }
+  }
+  
  
  
 
