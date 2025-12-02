@@ -60,7 +60,7 @@
         Background.src = "placeholder sprites/ROOM1.JPG";
         var RoomTracker = 1;
 
-  
+        
         
         function Draw()
         {
@@ -83,19 +83,10 @@
 
            //x, y, height, width 
           ctx.drawImage(MainCharacter,x,y,100,100);
-
-
-          var Xcoord = document.getElementById("xcoords");
-          Xcoord.innerText = x;
-          var Ycoord = document.getElementById("ycoords");
-          Ycoord.innerText = y;
-          
-          var R1Check = document.getElementById("test");
-          R1Check.innerText = RoomTracker;
         }
 
        
-        //key input for movement
+
         window.addEventListener('keydown', detectRight) //event listner only listens for 1 action
         window.addEventListener('keydown', detectDown)
         window.addEventListener('keydown', detectLeft)
@@ -106,8 +97,6 @@
         window.addEventListener('keydown', FloorL) //left
         window.addEventListener('keydown', FloorR)//right
         window.addEventListener('keydown', FloorT)//top
-
-        
 
 
 
@@ -163,6 +152,8 @@
           if (y>385){
             y-=6
           }}
+
+    
 
         function FloorL (){
           if (x<120){
