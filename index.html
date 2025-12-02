@@ -20,6 +20,7 @@
       <section><!-- demo -->
      <h1>Demo </h1>
         <p> demo video, screenshots, summary, etc</p>
+        
     </section>
 
   <section> <!-- game -->
@@ -27,7 +28,13 @@
     
         <p>instructions/controls/how to play:</p>
 
+        <p id = "xcoords">coordinates </p>
+        <p id = "ycoords">coordinates </p>
+        <p id="test">background</p>
+
+
         <p>html canvas goes here:</p>
+        
 
         <canvas id="myCanvas" width="600" height="600" 
         style="border:4px solid #ff0000; background-color:rgb(255, 255, 255)">
@@ -35,7 +42,7 @@
         </canvas>
 
         <script>
-        var canvas; 
+       var canvas; 
         var ctx;
         var MainCharacter
         var x = 200;
@@ -46,37 +53,49 @@
         //defining character
         MainCharacter = new Image();
         MainCharacter.src = "placeholder sprites/MCF.JPG";
+        
 
         //defining background
         Background = new Image ();
-        Background.src = "placeholder sprites/ROOM1.JPG"
+        Background.src = "placeholder sprites/ROOM1.JPG";
+        var RoomTracker = 1;
 
-        
+  
         
         function Draw()
         {
+
+          ctx.clearRect(0,0,canvas.width,canvas.height)
           //drawImage(image, dx, dy, dwidth, dheight)
           ctx.drawImage(Background,0,0,600,600);
 
           //floor
-           ctx.rect(120,160,350,  330);
+           ctx.rect(120,160,350,330);
            ctx.lineWidth = 4;
            ctx.strokeStyle= "blue";
            ctx.stroke ();
 
-
           //room 1 R door
-           ctx.rect(470,290,80,100);
+          ctx.rect(470,290,80,100);
           //room 1 L door
-           ctx.rect(40,280,80,100);
+          ctx.rect(40,280,80,100);
+          ctx.stroke ();
 
-           ctx.stroke();
-
+           //x, y, height, width 
           ctx.drawImage(MainCharacter,x,y,100,100);
+
+
+          var Xcoord = document.getElementById("xcoords");
+          Xcoord.innerText = x;
+          var Ycoord = document.getElementById("ycoords");
+          Ycoord.innerText = y;
+          
+          var R1Check = document.getElementById("test");
+          R1Check.innerText = RoomTracker;
         }
 
        
-
+        //key input for movement
         window.addEventListener('keydown', detectRight) //event listner only listens for 1 action
         window.addEventListener('keydown', detectDown)
         window.addEventListener('keydown', detectLeft)
@@ -87,6 +106,8 @@
         window.addEventListener('keydown', FloorL) //left
         window.addEventListener('keydown', FloorR)//right
         window.addEventListener('keydown', FloorT)//top
+
+        
 
 
 
@@ -99,19 +120,19 @@
             moveRight() //call function moveRight
         }}
         function moveRight (){
-          x+= 1 //move right
+          x+= 5 //move right
           MainCharacter.src = "placeholder sprites/MCR.JPG"; //change sprite
           Draw () //call draw function to update canvas
         }
         
         //MOVING DOWN
         function detectDown(event){
-          if (event.key == 's')
-            moveDown()
-          }
+          if (event.key == 's'){
+          moveDown()
+          }}
                   
         function moveDown (){
-            y+= 1
+            y+= 5
             MainCharacter.src = "placeholder sprites/MCF.JPG";
             Draw () 
         }
@@ -122,7 +143,7 @@
             moveLeft()
         }}
         function moveLeft (){
-          x-= 1
+          x-= 5
           MainCharacter.src = "placeholder sprites/MCL.JPG";
           Draw ()
         }
@@ -132,35 +153,35 @@
             moveUp()
         }}
         function moveUp (){
-          y-= 1
+          y-= 5
           MainCharacter.src = "placeholder sprites/MCB.JPG";
           Draw ()
         }
         
-        //////
+        //Detect Floor Boundaries
         function FloorB (){
           if (y>385){
-            y-=2
+            y-=6
           }}
 
         function FloorL (){
           if (x<120){
-            x+=2
+            x+=6
           }}
 
         function FloorR (){
           if (x>370){
-            x-=2
+            x-=6
           }}
 
         function FloorT (){
           if (y<160){
-            y+=2
+            y+=6
           }}
  
-
-
-        
+      
+       
+    
 
 
 
