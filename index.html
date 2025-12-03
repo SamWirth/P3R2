@@ -651,7 +651,7 @@ setInterval(() => {
             function timer () { 
             var currentTime = new Date();
             var seconds = currentTime.getMinutes() * 60 + currentTime.getSeconds();
-            var timeLimit = 200;
+            var timeLimit = 20;
             var timeRemaining = timeLimit - seconds % timeLimit;
             var result = parseInt(timeRemaining /60) + ':' + timeRemaining % 60;
     
