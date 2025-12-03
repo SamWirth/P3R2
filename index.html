@@ -624,11 +624,13 @@ setInterval(() => {
   }
 
   if (RoomTracker != 'win'){
-    if (timeEnd == true){
+      if (timeEnd == true){
         Background.src = "placeholder sprites/gameover.png"
         RoomTracker = 'end'
       }
   }
+
+
   
 
 
@@ -651,23 +653,30 @@ setInterval(() => {
             function timer () { 
             var currentTime = new Date();
             var seconds = currentTime.getMinutes() * 60 + currentTime.getSeconds();
-            var timeLimit = 20;
+            var timeLimit = 60; //set to whatever you'd like
             var timeRemaining = timeLimit - seconds % timeLimit;
             var result = parseInt(timeRemaining /60) + ':' + timeRemaining % 60;
-    
-        
-        document.getElementById('test').innerHTML = result;
-        
-            if (timeStart > 0){
-              if (timeRemaining == timeLimit){
-                timeEnd = true
+            
+              if (timeRemaining < timeLimit){
+                displayresult = document.getElementById('test').innerHTML = result
               }
-            }
+    
+              if (timeRemaining == timeLimit){
+                timeEnd = true  
+              }
 
-          
+              if (timeEnd == true){
+                displayresult =  document.getElementById('test').innerHTML = `
+                <p style="display:none" text </p>
+                    
+                `  
+              }
 
+            
+              
               }, 500)
         }
+
         
             
         }
