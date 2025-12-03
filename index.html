@@ -625,6 +625,7 @@ setInterval(() => {
             
         }}
         function moveRight (){
+          Character.src = "placeholder sprites/MCR.JPG";
           player1.position.x+= 5 //move right
           Draw () //call draw function to update canvas
         }
@@ -637,6 +638,7 @@ setInterval(() => {
           }
                   
         function moveDown (){
+            Character.src = "placeholder sprites/MCF.JPG";
             player1.position.y+= 5
             Draw () 
         }
@@ -648,6 +650,7 @@ setInterval(() => {
             moveLeft()
         }}
         function moveLeft (){
+          Character.src = "placeholder sprites/MCL.JPG";
           player1.position.x-= 5
           Draw ()
         }
@@ -658,6 +661,7 @@ setInterval(() => {
             moveUp()
         }}
          function moveUp (){
+          Character.src = "placeholder sprites/MCB.JPG";
           player1.position.y-= 5
           Draw ()
         }
@@ -667,7 +671,9 @@ setInterval(() => {
 
  <section> <!-- credits -->
     <h1>credits</h1>
-    credits go here
+    credits go here:
+
+    <p> god parents:</p>
     <ul>
       <li>om</li>
       <li>hadi</li>
