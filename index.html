@@ -29,6 +29,8 @@
         <p>instructions/controls/how to play:</p>
         <ul>
         <li>use wasd to move</li>
+        <li>time remaining: <p id = 'test'>N/A</p></li>
+       
         </ul>
 
 <!-- load javascript so we can draw on canvas -->
@@ -54,9 +56,11 @@ RoomTracker = 'R1'
 Vault = new Image();
 Vault.src = "placeholder sprites/STUDY OBJECTS/vault.JPG"
 
-HasKey = false;
-KeyAlert = 0;
-DoorAlert = 0;
+let HasKey = false;
+let KeyAlert = 0;
+let DoorAlert = 0;
+let timeStart = 0;
+let timeEnd = false;
 
 //CLASSES START///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -313,7 +317,7 @@ function collision3({ player1, floor3 }) {
 
 function collision4({ player1, floor4 }) {
   return (
-  player1.position.y + player1.height >= floor4.position.y // player1 bottom collides with R1doorR top
+    player1.position.y + player1.height >= floor4.position.y // player1 bottom collides with R1doorR top
 
   )
 }
@@ -389,26 +393,43 @@ let frame = 0
 setInterval(() => {
   frame++
 
-
-
-
-
   //always draw
-  background1.draw()
-  player1.draw()
-  floor1.draw()
-  floor2.draw()
-  floor3.draw()
-  floor4.draw()
+  
+
+
+  //win screen
+  if (RoomTracker == 'win'){
+    background1.draw()
+    player1.draw()
+  }
+
+  //game over screen
+  if (RoomTracker == 'end'){
+    background1.draw()
+    
+  }
+
 
   //Room 1
   if (RoomTracker == 'R1'){
+    background1.draw()
+    player1.draw()
+    floor1.draw()
+    floor2.draw()
+    floor3.draw()
+    floor4.draw()
     R1doorR.draw()
     R1doorL.draw()
   }
   
   //Room2
   if (RoomTracker =='R2'){
+    background1.draw()
+    player1.draw()
+    floor1.draw()
+    floor2.draw()
+    floor3.draw()
+    floor4.draw()
     R2doorL.draw()
     R2doorR.draw()
     vault1.draw()
@@ -416,6 +437,12 @@ setInterval(() => {
 
   //Room3
   if (RoomTracker == 'R3'){
+    background1.draw()
+    player1.draw()
+    floor1.draw()
+    floor2.draw()
+    floor3.draw()
+    floor4.draw()
     R3doorL.draw()
   }
 
@@ -486,7 +513,7 @@ setInterval(() => {
 
   if (collision4({ player1, floor4 })) {
       if (Key == 's'){//player bottom left colliding with bottom boundary
-        player1.position.y = floor4.position.y + floor4.height - player1.height
+        player1.position.y = floor4.position.y - player1.height
         }
   }
  
@@ -596,6 +623,14 @@ setInterval(() => {
           }
   }
 
+  if (RoomTracker != 'win'){
+    if (timeEnd == true){
+        Background.src = "placeholder sprites/gameover.png"
+        RoomTracker = 'end'
+      }
+  }
+  
+
 
 
 }, 100)
@@ -605,6 +640,38 @@ setInterval(() => {
         window.addEventListener('keydown', detectDown)
         window.addEventListener('keydown', detectLeft)
         window.addEventListener('keydown', detectUp)
+
+        window.addEventListener ('keydown',timehandler)
+
+      function timehandler (){
+        timeStart +=1
+        if (timeStart == 1){
+
+          setInterval (
+            function timer () { 
+            var currentTime = new Date();
+            var seconds = currentTime.getMinutes() * 60 + currentTime.getSeconds();
+            var timeLimit = 200;
+            var timeRemaining = timeLimit - seconds % timeLimit;
+            var result = parseInt(timeRemaining /60) + ':' + timeRemaining % 60;
+    
+        
+        document.getElementById('test').innerHTML = result;
+        
+            if (timeStart > 0){
+              if (timeRemaining == timeLimit){
+                timeEnd = true
+              }
+            }
+
+          
+
+              }, 500)
+        }
+        
+            
+        }
+                          
 
 
         //alerts

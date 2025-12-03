@@ -27,6 +27,11 @@
         <h1>Game </h1>
     
         <p>instructions/controls/how to play:</p>
+        <ul>
+        <li>use wasd to move</li>
+        <li>time remaining: <p id = 'test'>N/A</p></li>
+       
+        </ul>
 
 <!-- load javascript so we can draw on canvas -->
 <canvas id="myCanvas" width="600" height="600" 
@@ -39,11 +44,23 @@ const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 let key = 'f'
 
-canvas.width = innerWidth
-canvas.height = innerHeight
+//sprites and global variables!
 
 Character = new Image ();
 Character.src = "placeholder sprites/MCF.JPG";
+
+Background = new Image();
+Background.src = "placeholder sprites/ROOM1.JPG";
+RoomTracker = 'R1'
+
+Vault = new Image();
+Vault.src = "placeholder sprites/STUDY OBJECTS/vault.JPG"
+
+let HasKey = false;
+let KeyAlert = 0;
+let DoorAlert = 0;
+let timeStart = 0;
+let timeEnd = false;
 
 //CLASSES START///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -64,10 +81,23 @@ class Player {
   }
 
   draw() {
-    //c.lineWidth = 3
-   //c.strokeStyle = this.color
-    //c.strokeRect(this.position.x, this.position.y, this.width, this.height)
     c.drawImage(Character,this.position.x, this.position.y, this.width, this.height)
+  }}
+
+  //BACKDROPS
+class Backdrop {
+  constructor({
+    position = { x: 0, y: 0 },
+    width = 600,
+    height = 600,
+  }) {
+    this.position = position
+    this.width = width
+    this.height = height
+  }
+
+  draw() {
+    c.drawImage(Background,this.position.x, this.position.y, this.width, this.height)
   }}
 
   //DOORS
@@ -92,6 +122,7 @@ class Player {
     c.strokeRect(this.position.x, this.position.y, this.width, this.height)
     
   }
+  
 }
 
 //FLOOR
@@ -113,10 +144,29 @@ class Player {
   draw() {
   c.strokeStyle = this.color
   c.strokeRect(this.position.x, this.position.y, this.width, this.height)
-
-    
   }
 }
+
+
+//OBJECTSSSs
+class VaultClass {
+  constructor({
+    position = { x: 120, y: 160 },
+    width = 100,
+    height = 100,
+    
+  }) {
+    this.position = position
+    this.width = width
+    this.height = height
+  }
+
+  draw() {
+  c.drawImage(Vault,this.position.x, this.position.y, this.width, this.height)
+  }
+}
+
+
 
 //CLASSES END///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +178,7 @@ const center = {
   y: canvas.height / 2,
 }
 
-// instantiate Player
+// initiate Player
 const player1 = new Player({
   position: {
     x: center.x - 120,
@@ -139,16 +189,54 @@ const player1 = new Player({
   },
 })
 
+//initiate background
+const background1 = new Backdrop({
+  position:{x:0,y:0,},
+  room: 'R1',
+})
+
 // initiate Doors
-const door1 = new Door({
+const R1doorR = new Door({
   position: {
-    x: 300,
-    y: 300,
+    x: 460,
+    y: 280,
+  },
+  color: 'DeepSkyBlue',
+})
+
+const R2doorL = new Door({
+  position: {
+    x: 30,
+    y: 340,
+  },
+  color: 'blue',
+  show: true
+})
+
+const R2doorR = new Door({
+  position: {
+    x: 460,
+    y: 340,
   },
   color: 'blue',
 })
 
-// initiate floor
+const R3doorL = new Door({
+  position: {
+    x: 30,
+    y: 190,
+  },
+  color: 'DarkBlue',
+})
+
+const R1doorL = new Door({
+  position: {
+    x: 30,
+    y: 280,
+  },
+  color: 'rebeccapurple',
+})
+// initiate floor boundary
 const floor1 = new Floor({
   position: {
     x: 120,
@@ -189,41 +277,104 @@ const floor4 = new Floor({
   color: 'purple'
 })
 
+//initializing objects
 
-function collision({ player1, door1 }) {
+const vault1 = new VaultClass({
+  position: {
+    x: 100,
+    y: 200
+  },
+})
+
+
+
+function collision({ player1, R1doorR }) {
   return (
-    player1.position.x + player1.width >= door1.position.x && // player1 right collides with door1 left
-    door1.position.x + door1.width >= player1.position.x && // door1 right collides with player1 left
-    player1.position.y + player1.height >= door1.position.y && // player1 bottom collides with door1 top
-    door1.position.y + door1.height >= player1.position.y // player1 top collides with door1 bottom
+    player1.position.x + player1.width >= R1doorR.position.x && // player1 right collides with R1doorR left
+    R1doorR.position.x + R1doorR.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R1doorR.position.y && // player1 bottom collides with R1doorR top
+    R1doorR.position.y + R1doorR.height >= player1.position.y // player1 top collides with R1doorR bottom
   )
 }
 
 function collision1({ player1, floor1 }) {
   return (
-    floor1.position.y + floor1.height >= player1.position.y // player1 top collides with door1 bottom
+    floor1.position.y + floor1.height >= player1.position.y // player1 top collides with R1doorR bottom
   )
 }
 
 function collision2({ player1, floor2 }) {
   return (
-    player1.position.x + player1.width >= door1.position.x  // player1 right collides with door1 left
+    player1.position.x + player1.width >= R1doorR.position.x  // player1 right collides with R1doorR left
   )
 }
 
 function collision3({ player1, floor3 }) {
   return (
-    floor3.position.x + floor3.width >= player1.position.x  // door1 right collides with player1 left
+    floor3.position.x + floor3.width >= player1.position.x  // R1doorR right collides with player1 left
   )
 }
 
 function collision4({ player1, floor4 }) {
   return (
-  player1.position.y + player1.height >= floor4.position.y // player1 bottom collides with door1 top
+    player1.position.y + player1.height >= floor4.position.y // player1 bottom collides with R1doorR top
 
   )
 }
 
+function collision5({ player1, R2doorL }) {
+  return (
+    player1.position.x + player1.width >= R2doorL.position.x && // player1 right collides with R1doorR left
+    R2doorL.position.x + R2doorL.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R2doorL.position.y && // player1 bottom collides with R1doorR top
+    R2doorL.position.y + R2doorL.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
+function collision6({ player1, R2doorR }) {
+  return (
+    player1.position.x + player1.width >= R2doorR.position.x && // player1 right collides with R1doorR left
+    R2doorR.position.x + R2doorR.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R2doorR.position.y && // player1 bottom collides with R1doorR top
+    R2doorR.position.y + R2doorR.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
+function collision7({ player1, R3doorL }) {
+  return (
+    player1.position.x + player1.width >= R3doorL.position.x && // player1 right collides with R1doorR left
+    R3doorL.position.x + R3doorL.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R3doorL.position.y && // player1 bottom collides with R1doorR top
+    R3doorL.position.y + R3doorL.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
+function collision8({ player1, R1doorL }) {
+  return (
+    player1.position.x + player1.width >= R1doorL.position.x && // player1 right collides with R1doorR left
+    R1doorL.position.x + R1doorL.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R1doorL.position.y && // player1 bottom collides with R1doorR top
+    R1doorL.position.y + R1doorL.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
+function collision9({ player1, R1doorL }) {
+  return (
+    player1.position.x + player1.width >= R1doorL.position.x && // player1 right collides with R1doorR left
+    R1doorL.position.x + R1doorL.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= R1doorL.position.y && // player1 bottom collides with R1doorR top
+    R1doorL.position.y + R1doorL.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
+
+function collision10({ player1, vault1 }) {
+  return (
+    player1.position.x + player1.width >= vault1.position.x && // player1 right collides with R1doorR left
+    vault1.position.x + vault1.width >= player1.position.x && // R1doorR right collides with player1 left
+    player1.position.y + player1.height >= vault1.position.y && // player1 bottom collides with R1doorR top
+    vault1.position.y + vault1.height >= player1.position.y // player1 top collides with R1doorR bottom
+  )
+}
 
 
 
@@ -242,37 +393,87 @@ let frame = 0
 setInterval(() => {
   frame++
 
-  // add gray background
-  c.fillStyle = 'rgb(39,39,42)'
-  c.fillRect(0, 0, canvas.width, canvas.height)
+  //always draw
+  
 
-  // draw boxes
-  player1.draw()
-  door1.draw()
-  floor1.draw()
-  floor2.draw()
-  floor3.draw()
-  floor4.draw()
+
+  //win screen
+  if (RoomTracker == 'win'){
+    background1.draw()
+    player1.draw()
+  }
+
+  //game over screen
+  if (RoomTracker == 'end'){
+    background1.draw()
+    
+  }
+
+
+  //Room 1
+  if (RoomTracker == 'R1'){
+    background1.draw()
+    player1.draw()
+    floor1.draw()
+    floor2.draw()
+    floor3.draw()
+    floor4.draw()
+    R1doorR.draw()
+    R1doorL.draw()
+  }
+  
+  //Room2
+  if (RoomTracker =='R2'){
+    background1.draw()
+    player1.draw()
+    floor1.draw()
+    floor2.draw()
+    floor3.draw()
+    floor4.draw()
+    R2doorL.draw()
+    R2doorR.draw()
+    vault1.draw()
+}
+
+  //Room3
+  if (RoomTracker == 'R3'){
+    background1.draw()
+    player1.draw()
+    floor1.draw()
+    floor2.draw()
+    floor3.draw()
+    floor4.draw()
+    R3doorL.draw()
+  }
+
+
+ 
+
+  
 
 
   // update x position before render
   player1.position.x += player1.velocity.x
 
-  if (collision({ player1, door1 })) {
-      if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - door1's width - 1
-        player1.position.x = door1.position.x - door1.width - 1}
-      if (Key =='a'){//box 1 top corner is set to door1's top right corner (top left corner + door1's width) + 1
-        player1.position.x = door1.position.x + door1.width +1}
-      if (Key == 'w'){//player1 top left corner is set to door1's bottom left corner (top left corner + height) +1
-        player1.position.y = door1.position.y +door1.height+1}
-      if (Key == 's'){//player1 top left corner is set to door1's top left corner - door1's height -1
-        player1.position.y = door1.position.y - door1.height - 1}
-
+  if (collision({ player1, R1doorR })) {
+    if (RoomTracker == 'R1'){ //door 1 only works in room 1
+      if (Key =='d'){
+        player1.position.x = 140
+        player1.position.y = 340
+        Background.src = "placeholder sprites/ROOM2.JPG"
+        R1doorR.show = false
+        RoomTracker = 'R2'
+      }
+      if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+        player1.position.x = R1doorR.position.x + R1doorR.width +1}
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+        player1.position.y = R1doorR.position.y +R1doorR.height+1}
+      if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+        player1.position.y = R1doorR.position.y - R1doorR.height - 1}
+    }
   }
 
-  
-
-  /*
+   /*
   if (collision2({ player1, floor1 })) {
       if (Key == 'd'){//player top right colliding with right boundary
         player1.position.x = floor1.position.x +floor1.width - player1.width
@@ -292,9 +493,9 @@ setInterval(() => {
         
         }
   }*/
-
+  
   if (collision1({ player1, floor1 })) {
-      if (Key == 'w'){//player1 top left corner is set to door1's bottom left corner (top left corner + height) +1
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
         player1.position.y = floor1.position.y +floor1.height+1}
   }
 
@@ -312,26 +513,175 @@ setInterval(() => {
 
   if (collision4({ player1, floor4 })) {
       if (Key == 's'){//player bottom left colliding with bottom boundary
-        player1.position.y = floor4.position.y + floor4.height - player1.height
+        player1.position.y = floor4.position.y - player1.height
         }
   }
  
+  if (collision5({ player1, R2doorL })) {
+    if (RoomTracker == 'R2'){ 
+      if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - R1doorR's width - 1
+        player1.position.x = R2doorL.position.x +R2doorL.width - player1.width}
+      if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+        player1.position.x = 350
+        player1.position.y = 280
+        Background.src = "placeholder sprites/ROOM1.JPG"
+        RoomTracker = 'R1'
+      }
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+        player1.position.y = R2doorL.position.y +R2doorL.height+1}
+      if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+        player1.position.y = R2doorL.position.y - R2doorL.height - 1}
+    }
+  }
+
+   if (collision6({ player1, R2doorR })) {
+    if (RoomTracker == 'R2'){ 
+      if (Key =='d'){
+        player1.position.x = 140
+        player1.position.y = 190
+        Background.src = "placeholder sprites/ROOM3.JPG"
+        RoomTracker = 'R3'
+      }
+      if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+        player1.position.x = R2doorR.position.x + R2doorR.width +1}
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+        player1.position.y = R2doorR.position.y +R2doorR.height+1}
+      if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+        player1.position.y = R2doorR.position.y - R2doorR.height - 1}
+    }
+  }
+
+   if (collision7({ player1, R3doorL })) {
+    if (RoomTracker == 'R3'){ 
+      if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - R1doorR's width - 1
+        player1.position.x = R2doorL.position.x +R2doorL.width - player1.width}
+      if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+        player1.position.x = 350
+        player1.position.y = 340
+        Background.src = "placeholder sprites/ROOM2.JPG"
+        RoomTracker = 'R2'
+      }
+      if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+        player1.position.y = R2doorL.position.y +R2doorL.height+1}
+      if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+        player1.position.y = R2doorL.position.y - R2doorL.height - 1}
+    }
+  }
+  
+  if (collision8({ player1, R1doorL })) {
+    if (RoomTracker == 'R1'){ 
+      if (HasKey == true){
+        if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - R1doorR's width - 1
+          player1.position.x = R2doorL.position.x +R2doorL.width - player1.width}
+        if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+          player1.position.x = 180
+          player1.position.y = 300
+          Background.src = "placeholder sprites/winscreen.png"
+          RoomTracker = 'win'
+        }
+        if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+          player1.position.y = R2doorL.position.y +R2doorL.height+1}
+        if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+          player1.position.y = R2doorL.position.y - R2doorL.height - 1}
+    }}}
+
+    if (collision9({ player1, R1doorL })) {
+    if (RoomTracker == 'R1'){ 
+      if (HasKey == false){
+        if (Key == 'd'){//box 1 top corner is set to box 2's top left corner - R1doorR's width - 1
+          player1.position.x = R2doorL.position.x +R2doorL.width - player1.width}
+        if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
+          player1.position.x=150,
+          DoorAlert +=1
+          alerts()
+        }
+        if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
+          player1.position.y = R2doorL.position.y +R2doorL.height+1}
+        if (Key == 's'){//player1 top left corner is set to R1doorR's top left corner - R1doorR's height -1
+          player1.position.y = R2doorL.position.y - R2doorL.height - 1}
+    }}}
+    
+
+     
+  if (collision10({ player1, vault1 })) {
+    if (RoomTracker =='R2'){
+      if (Key =='a'){//player top left colliding with left boundary
+        HasKey=true,
+        KeyAlert += 1,
+        player1.position.x = 200
+      }
+      if (Key == 'w'){//player top left colliding with top boundary
+        HasKey=true,
+        KeyAlert += 1,
+        player1.position.y = 300
+      }}
+  }
  
- 
+  if (HasKey == true){
+    if (KeyAlert == 1){ 
+            alert ('you found a key in the vault!');
+          }
+  }
+
+  if (RoomTracker != 'win'){
+    if (timeEnd == true){
+        Background.src = "placeholder sprites/gameover.png"
+        RoomTracker = 'end'
+      }
+  }
+  
+
+
 
 }, 100)
 
-
+        //movement
         window.addEventListener('keydown', detectRight) //event listner only listens for 1 action
         window.addEventListener('keydown', detectDown)
         window.addEventListener('keydown', detectLeft)
         window.addEventListener('keydown', detectUp)
 
-      //boundary 
-        window.addEventListener('keydown', FloorB) //bottom
-        window.addEventListener('keydown', FloorL) //left
-        window.addEventListener('keydown', FloorR)//right
-        window.addEventListener('keydown', FloorT)//top
+        window.addEventListener ('keydown',timehandler)
+
+      function timehandler (){
+        timeStart +=1
+        if (timeStart == 1){
+
+          setInterval (
+            function timer () { 
+            var currentTime = new Date();
+            var seconds = currentTime.getMinutes() * 60 + currentTime.getSeconds();
+            var timeLimit = 200;
+            var timeRemaining = timeLimit - seconds % timeLimit;
+            var result = parseInt(timeRemaining /60) + ':' + timeRemaining % 60;
+    
+        
+        document.getElementById('test').innerHTML = result;
+        
+            if (timeStart > 0){
+              if (timeRemaining == timeLimit){
+                timeEnd = true
+              }
+            }
+
+          
+
+              }, 500)
+        }
+        
+            
+        }
+                          
+
+
+        //alerts
+        function alerts (){ //for when everything hates me and nothing wants to work <3
+          if (DoorAlert < 3){
+            alert ("the door is locked!");
+          }
+        }
+
+      
 
         //MOVING RIGHT
         function detectRight(event){
@@ -342,6 +692,7 @@ setInterval(() => {
             
         }}
         function moveRight (){
+          Character.src = "placeholder sprites/MCR.JPG";
           player1.position.x+= 5 //move right
           Draw () //call draw function to update canvas
         }
@@ -354,6 +705,7 @@ setInterval(() => {
           }
                   
         function moveDown (){
+            Character.src = "placeholder sprites/MCF.JPG";
             player1.position.y+= 5
             Draw () 
         }
@@ -365,6 +717,7 @@ setInterval(() => {
             moveLeft()
         }}
         function moveLeft (){
+          Character.src = "placeholder sprites/MCL.JPG";
           player1.position.x-= 5
           Draw ()
         }
@@ -375,6 +728,7 @@ setInterval(() => {
             moveUp()
         }}
          function moveUp (){
+          Character.src = "placeholder sprites/MCB.JPG";
           player1.position.y-= 5
           Draw ()
         }
@@ -384,9 +738,12 @@ setInterval(() => {
 
  <section> <!-- credits -->
     <h1>credits</h1>
-    credits go here
+    credits go here:
+
+    <p> god parents:</p>
     <ul>
       <li>om</li>
+      <li>hadi</li>
     </ul>
   </section>
 
