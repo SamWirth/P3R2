@@ -3,21 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Creepster&family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <title>TRICK OR TRAP</title>
   
-    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <link href="style.css" rel="stylesheet" type="text/css" media="all">
   </head>
 
   <body onLoad="Draw ()">
 
     <main>
        
-    <section> <!-- landing -->
-      <h1>landing </h1>
-      <p>beautiful logo!!</p>
+    <section id="title"> <!-- landing -->
+     <img src="placeholder sprites/TITLE.png"/>
     </section>
     
-      <section><!-- demo -->
+      <section id="demo"><!-- demo -->
      <h1>Demo </h1>
         <p><strong>demo videos and screenshots:</strong></p>
       <div id="demobox">
@@ -33,9 +35,9 @@
 
       <img src="room3.png" width="320" height="240">
       </div>
+</section>
 
-
-        
+        <section>
         <p><strong>game summary:</strong></p>
 
         <p>WELCOME TO THE WORLD OF <strong>TRICK OR TRAP!</strong></p>
@@ -62,7 +64,7 @@
           
 <!-- load javascript so we can draw on canvas -->
 <canvas id="myCanvas" width="600" height="600" 
-        style="border:4px solid #ff0000; background-color:rgb(255, 255, 255)">
+        style="border:4px solid #782727; background-color:rgb(255, 255, 255)">
         Sorry, your browser does not support canvas.
         </canvas></div>
 <script>
@@ -74,10 +76,10 @@ let key = 'f'
 //sprites and global variables!
 
 Character = new Image ();
-Character.src = "placeholder sprites/MCF.JPG";
+Character.src = "placeholder sprites/MCF.png";
 
 Background = new Image();
-Background.src = "placeholder sprites/ROOM1.JPG";
+Background.src = "placeholder sprites/ROOM1T.png";
 RoomTracker = 'R1'
 
 Vault = new Image();
@@ -487,7 +489,7 @@ setInterval(() => {
       if (Key =='d'){
         player1.position.x = 140
         player1.position.y = 340
-        Background.src = "placeholder sprites/ROOM2.JPG"
+        Background.src = "placeholder sprites/ROOM2T.png"
         R1doorR.show = false
         RoomTracker = 'R2'
       }
@@ -551,7 +553,7 @@ setInterval(() => {
       if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
         player1.position.x = 350
         player1.position.y = 280
-        Background.src = "placeholder sprites/ROOM1.JPG"
+        Background.src = "placeholder sprites/ROOM1T.png"
         RoomTracker = 'R1'
       }
       if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
@@ -566,7 +568,7 @@ setInterval(() => {
       if (Key =='d'){
         player1.position.x = 140
         player1.position.y = 190
-        Background.src = "placeholder sprites/ROOM3.JPG"
+        Background.src = "placeholder sprites/ROOM3T.png"
         RoomTracker = 'R3'
       }
       if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
@@ -585,7 +587,7 @@ setInterval(() => {
       if (Key =='a'){//box 1 top corner is set to R1doorR's top right corner (top left corner + R1doorR's width) + 1
         player1.position.x = 350
         player1.position.y = 340
-        Background.src = "placeholder sprites/ROOM2.JPG"
+        Background.src = "placeholder sprites/ROOM2T.png"
         RoomTracker = 'R2'
       }
       if (Key == 'w'){//player1 top left corner is set to R1doorR's bottom left corner (top left corner + height) +1
@@ -728,7 +730,7 @@ setInterval(() => {
             
         }}
         function moveRight (){
-          Character.src = "placeholder sprites/MCR.JPG";
+          Character.src = "placeholder sprites/MCR.png";
           player1.position.x+= 5 //move right
           Draw () //call draw function to update canvas
         }
@@ -741,7 +743,7 @@ setInterval(() => {
           }
                   
         function moveDown (){
-            Character.src = "placeholder sprites/MCF.JPG";
+            Character.src = "placeholder sprites/MCF.png";
             player1.position.y+= 5
             Draw () 
         }
@@ -753,7 +755,7 @@ setInterval(() => {
             moveLeft()
         }}
         function moveLeft (){
-          Character.src = "placeholder sprites/MCL.JPG";
+          Character.src = "placeholder sprites/MCL.png";
           player1.position.x-= 5
           Draw ()
         }
@@ -764,7 +766,7 @@ setInterval(() => {
             moveUp()
         }}
          function moveUp (){
-          Character.src = "placeholder sprites/MCB.JPG";
+          Character.src = "placeholder sprites/MCB.png";
           player1.position.y-= 5
           Draw ()
         }

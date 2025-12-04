@@ -1,8 +1,12 @@
 /* put css here */
+title {
+    img{ display:block;
+    margin:auto;
+}
+}
 
-
-#test{
-    color:red;
+#test{ font-size: xx-large;
+    color:rgb(241, 43, 43);
     font-weight: bold;
 }
 
@@ -16,24 +20,45 @@
     justify-content: space-around;
     padding: 1rem;
     border-radius: 0.5rem;
-}  
-
+ 
 video{
     padding: 1rem;
     margin: 2rem 0;
     border-radius: 0.5rem;
-    background-color: #ebac48;
+    background-color: #29292b;
 }
-
 img{
     padding: 1rem;
     margin: 2rem 0;
     border-radius: 0.5rem;
-    background-color: #4c494d;
+    background-color: #29292b;
 }
-
+}
 #gamesummary{
     padding: 1rem;
     margin: 2rem 0;
     border-radius: 0.5rem;
+    visibility:show
+}
+.my-canvas{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+body {
+  border: 80px solid transparent;
+  border-image: url("placeholder sprites/border.png") 250 round;
+  margin:0px;
+  background-color: rgb(78, 73, 94);
+}
+
+body {color: rgb(218, 206, 249);}
+
+
+
+html {
+  font-family: "Creepster", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: larger;
 }
