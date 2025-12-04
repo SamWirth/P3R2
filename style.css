@@ -9,3 +9,31 @@
 #timer{
     text-align: center;
 }
+
+#demobox{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 1rem;
+    border-radius: 0.5rem;
+}  
+
+video{
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 0.5rem;
+    background-color: #ebac48;
+}
+
+img{
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 0.5rem;
+    background-color: #4c494d;
+}
+
+#gamesummary{
+    padding: 1rem;
+    margin: 2rem 0;
+    border-radius: 0.5rem;
+}
