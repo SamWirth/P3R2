@@ -2,5 +2,10 @@
 
 
 #test{
-    visibility:show
+    color:red;
+    font-weight: bold;
+}
+
+#timer{
+    text-align: center;
 }

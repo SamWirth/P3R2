@@ -20,19 +20,32 @@
       <section><!-- demo -->
      <h1>Demo </h1>
         <p> demo video, screenshots, summary, etc</p>
+
+
+
+        <p><strong>game summary:</strong></p>
+
+        <p>WELCOME TO THE WORLD OF <strong>TRICK OR TRAP!</strong></p>
+        <ul>HALLOWEEN NIGHT is coming to a close. Ghostie, in search of a house that still has candy finds this delightly spooky mansion, just barely off the beaten path.</p>
+        <p>In a HAUNTING turn of events, a mysterious unseen force pushes Ghostie  through the door, and locks them inside! </p>
+        <p>Will <em>you</em> be able to help them escape?</p>
+        </ul><p>
         
     </section>
     
     <section> <!-- game -->
         <h1>Game </h1>
-    
-        <p>instructions/controls/how to play:</p>
-        <ul>
-        <li>use wasd to move</li>
-        <li>time remaining: <p id = 'test'>N/A</p></li>
-       
-        </ul>
 
+<p><strong> how to play:</strong></p>     
+        <ul>
+        <li> use WASD to move</li>
+        <li>interact with objects by walking into them </li>
+        <li>escape before time runs out!</li>       
+        </ul>
+                  <br>
+        <div id= 'timer'>
+    <strong> time remaining:</strong> <p id = 'test'>[00:00]</p></li>
+          </div>
 <!-- load javascript so we can draw on canvas -->
 <canvas id="myCanvas" width="600" height="600" 
         style="border:4px solid #ff0000; background-color:rgb(255, 255, 255)">
@@ -305,7 +318,7 @@ function collision1({ player1, floor1 }) {
 
 function collision2({ player1, floor2 }) {
   return (
-    player1.position.x + player1.width >= R1doorR.position.x  // player1 right collides with R1doorR left
+    player1.position.x + player1.width >= floor2.position.x  // player1 right collides with R1doorR left
   )
 }
 
@@ -392,7 +405,7 @@ let frame = 0
 
 setInterval(() => {
   frame++
-
+ 
   //always draw
   
 
@@ -653,9 +666,9 @@ setInterval(() => {
             function timer () { 
             var currentTime = new Date();
             var seconds = currentTime.getMinutes() * 60 + currentTime.getSeconds();
-            var timeLimit = 60; //set to whatever you'd like
+            var timeLimit = 30; //set to whatever you'd like
             var timeRemaining = timeLimit - seconds % timeLimit;
-            var result = parseInt(timeRemaining /60) + ':' + timeRemaining % 60;
+            var result = '[' + parseInt(timeRemaining /60) + ':' + timeRemaining % 60 +']';
             
               if (timeRemaining < timeLimit){
                 displayresult = document.getElementById('test').innerHTML = result
@@ -746,14 +759,33 @@ setInterval(() => {
 </section>
 
  <section> <!-- credits -->
-    <h1>credits</h1>
-    credits go here:
+    <h1>Credits</h1>
 
-    <p> god parents:</p>
-    <ul>
-      <li>om</li>
-      <li>hadi</li>
+    <p> <strong>Team Members:</strong></p>
+      <li>Samanthi Wirth</li>
+      <li>Makayla McLean</li>
     </ul>
+    
+    <br>
+    
+    <p><strong>Sources:</strong></p>
+    <p>Sites referenced during the development of this project</p>
+    <ul>
+      <li> <a href="https://www.w3schools.com/graphics/canvas_intro.asp">html canvas graphics tutorial</a> </li>
+      <li> <a href="https://thedailyfrontend.com/a-beginners-guide-to-javascript-event-listeners-and-handlers/">Javascript event handler and event listener guide</a> </li>
+      <li> <a href="https://chriscourses.com/blog/coding-collision-detection-in-javascript">collision detection in javascript</a> </li>
+      <li> <a href="https://stackoverflow.com/questions/16156832/javascript-countdown-to-next-real-5-minutes">stackoverflow: how to create a count-down timer </a> </li>
+    </ul>
+    <br>
+
+    <p> <strong>Special thanks to:</strong></p>
+      <li>Om Lohier</li>
+      <li>Hadi Assaad</li>
+    </ul>
+
+    <br>
+    <br>
+    <p><strong>Date created:</strong> November 10 2025 - December 6 2025 </p>
   </section>
 
 
