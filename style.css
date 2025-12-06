@@ -62,3 +62,11 @@ html {
   font-style:normal;
   font-size: larger;
 }
+
+a{
+    color: rgb(179, 203, 238);
+}
+
+a:hover{
+    color: aqua;
+}
