@@ -83,7 +83,7 @@ Background.src = "placeholder sprites/ROOM1T.png";
 RoomTracker = 'R1'
 
 Vault = new Image();
-Vault.src = "placeholder sprites/STUDY OBJECTS/vault.png"
+Vault.src = "placeholder sprites/STUDY OBJECTS/vault.png";
 
 let HasKey = false;
 let KeyAlert = 0;
@@ -191,7 +191,7 @@ class VaultClass {
   }
 
   draw() {
-  c.drawImage(Vault,this.position.x, this.position.y, this.width, this.height)
+  c.drawImage(Vault,this.position.x, this.position.y, this.width +50, this.height+30)
   }
 }
 
@@ -313,6 +313,8 @@ const vault1 = new VaultClass({
     x: 100,
     y: 200
   },
+  width:100,
+  height: 100,
 })
 
 
